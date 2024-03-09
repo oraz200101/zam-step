@@ -1,6 +1,10 @@
+server:
+  port: 8081
+  servlet:
+    contextPath: ${ROOT_URL:/api}
 security:
   jwt:
-    secret: secret
+    secret: 9a4f2c8d3b7a1e6f45c8a0b3f267d8b1d4e6f3c8a9d2b5f8e3a9c8b5f6v8a3d9
     access: 1
     refresh: 30
 user:
@@ -10,7 +14,15 @@ eureka:
   client:
     serviceUrl:
       defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
-
+spring:
+  application:
+    name: auth-server
+  kafka:
+    bootstrap-servers: localhost:12211
+    consumer:
+      group-id: my-group
+    producer:
+      client-id: my-producer
 
 
 

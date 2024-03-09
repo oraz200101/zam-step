@@ -1,10 +1,9 @@
 package com.example.authserver.services.impl;
 
-import com.example.authserver.models.dtos.UserDto;
+import com.example.authserver.models.dtos.UserLoginDto;
 import com.example.authserver.services.UserClientService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
@@ -21,14 +20,14 @@ public class UserClientServiceImpl implements UserClientService {
     private final ObjectMapper objectMapper;
 
     @Override
-    public UserDto getUser(Long id) {
+    public UserLoginDto getUser(Long id) {
         return userClient.get().uri(UriComponentsBuilder.fromPath("/user/to-auth")
                                                         .queryParam("id", id)
                                                         .toUriString()).exchange(((request, response) -> {
             if (response.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(204))) {
                 throw new RuntimeException();
             } else if (response.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(200))) {
-                return objectMapper.readValue(response.getBody(), UserDto.class);
+                return objectMapper.readValue(response.getBody(), UserLoginDto.class);
             } else {
                 throw new RemoteException();
             }

@@ -1,3 +1,8 @@
+server:
+  servlet:
+    contextPath: ${ROOT_URL:/api}
+  port: 8082
+
 spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -11,9 +16,15 @@ spring:
   flyway:
     enabled: true
     validate-on-migrate: true
-server:
-  servlet:
-    contextPath: ${ROOT_URL:/api}
+  application:
+    name: user-service
+  kafka:
+    bootstrap-servers: localhost:12211
+    consumer:
+      group-id: my-group
+    producer:
+      client-id: my-producer
+
 eureka:
   client:
     serviceUrl:

@@ -37,6 +37,9 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     // endregion lombok
 
+    implementation 'org.springframework.kafka:spring-kafka:3.1.2'
+
+
     // region jsonwebtoken
     implementation "io.jsonwebtoken:jjwt-api:${jsonwebtokenVersion}"
     runtimeOnly "io.jsonwebtoken:jjwt-impl:${jsonwebtokenVersion}"

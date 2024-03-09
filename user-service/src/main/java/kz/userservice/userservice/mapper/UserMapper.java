@@ -1,7 +1,7 @@
 package kz.userservice.userservice.mapper;
 
 
-import kz.userservice.userservice.models.dtos.UserRegistrationRequest;
+import kz.userservice.userservice.models.dtos.UserRegistrationDto;
 import kz.userservice.userservice.models.dtos.UserToAuthService;
 import kz.userservice.userservice.models.entities.UserEntity;
 import kz.userservice.userservice.models.enums.Role;
@@ -21,7 +21,7 @@ public abstract class UserMapper {
     protected PasswordEncoder passwordEncoder;
 
     @BeforeMapping
-    protected void setUp(@MappingTarget UserEntity entity, UserRegistrationRequest dto) {
+    protected void setUp(@MappingTarget UserEntity entity, UserRegistrationDto dto) {
         entity.setRoles(Set.of(Role.USER));
         entity.setPassword(passwordEncoder.encode(dto.getPassword()));
         entity.setBirthDate(DateUtil.parseToLocalDateTime(dto.getBirthDate()));
@@ -30,7 +30,7 @@ public abstract class UserMapper {
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "roles", ignore = true)
     @Mapping(target = "birthDate", ignore = true)
-    public abstract UserEntity mapToEntity(UserRegistrationRequest userRegistrationRequest);
+    public abstract UserEntity mapToEntity(UserRegistrationDto userRegistrationRequest);
 
     public abstract UserToAuthService mapToDto(UserEntity user);
 }

@@ -1,7 +1,7 @@
 package kz.userservice.userservice.services.impl;
 
 import kz.userservice.userservice.mapper.UserMapper;
-import kz.userservice.userservice.models.dtos.UserRegistrationRequest;
+import kz.userservice.userservice.models.dtos.UserRegistrationDto;
 import kz.userservice.userservice.models.dtos.UserToAuthService;
 import kz.userservice.userservice.models.entities.UserEntity;
 import kz.userservice.userservice.repository.UserRepository;
@@ -18,8 +18,8 @@ public class UserServiceImpl implements UserService {
     private final UserRepository repository;
 
     @Override
-    public void createUser(UserRegistrationRequest registrationRequest) {
-        repository.save(mapper.mapToEntity(registrationRequest));
+    public void createUser(UserRegistrationDto dto) {
+        repository.save(mapper.mapToEntity(dto));
     }
 
     @Override

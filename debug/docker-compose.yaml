@@ -28,4 +28,81 @@ services:
       - "docker-entrypoint.sh"
       - "-c"
       - "max-connections=800"
+  zoo:
+    container_name: zam-step-zoo
+    image: confluentinc/cp-zookeeper:5.5.0
+    user: "0:0"
+    mem_limit: 200M
+    restart: always
+    ports:
+      - "12212:2181"
+    volumes:
+      - ~/volumes/sandbox/zookeeper/data:/var/lib/zookeeper/data
+      - ~/volumes/sandbox/zookeeper/log:/var/lib/zookeeper/log
+    environment:
+      ZOOKEEPER_SERVER_ID: 1
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_INIT_LIMIT: 11
+      ZOOKEEPER_SYNC_LIMIT: 5
 
+  zoo-navigator:
+    container_name: zam-step-navigator
+    image: elkozmon/zoonavigator:1.1.2
+    restart: always
+    mem_limit: 500M
+    ports:
+      - "12210:9001"                              #  http://localhost:12210
+    environment:
+      HTTP_PORT: "9001"
+      AUTO_CONNECT_CONNECTION_ID: "MAIN"
+      CONNECTION_MAIN_NAME: "main"
+      CONNECTION_MAIN_CONN: "zoo:2181"
+
+  kf:
+    container_name: zam-step-kf
+    image: bitnami/kafka:3.2.1
+    mem_limit: 1G
+    restart: always
+    ports:
+      - "12211:9093"
+      - "12220:9094"
+      - "12215:7071"
+    depends_on:
+      - zoo
+    volumes:
+      - ~/volumes/zam-step/kafka:/bitnami/kafka
+    user: "0:0"
+    environment:
+      KAFKA_BROKER_ID: "1"
+      ALLOW_PLAINTEXT_LISTENER: "yes"
+      KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: "IN_DOCKER:PLAINTEXT,FROM_LOCALHOST:PLAINTEXT,FROM_OUT:PLAINTEXT"
+      KAFKA_CFG_ADVERTISED_LISTENERS: "IN_DOCKER://kf:9092,FROM_LOCALHOST://localhost:12211,FROM_OUT://192.168.11.23:10020"
+      KAFKA_CFG_LISTENERS: "IN_DOCKER://0.0.0.0:9092,FROM_LOCALHOST://0.0.0.0:9093,FROM_OUT://0.0.0.0:9094"
+      KAFKA_CFG_INTER_BROKER_LISTENER_NAME: "IN_DOCKER"
+      KAFKA_CFG_ZOOKEEPER_CONNECT: "zoo:2181"
+
+      KAFKA_CFG_NUM_PARTITIONS: "4"
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_CFG_OFFSETS_TOPIC_REPLICATION_FACTOR: "1"
+      KAFKA_CFG_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: "1"
+      KAFKA_CFG_TRANSACTION_STATE_LOG_MIN_ISR: "1"
+      KAFKA_CFG_DEFAULT_REPLICATION_FACTOR: "1"
+      KAFKA_CFG_LOG_RETENTION_HOURS: "-1"
+      KAFKA_HEAP_OPTS: "-Xmx1G -Xms1G"
+      KAFKA_CFG_UNCLEAN_LEADER_ELECTION: "true"
+      KAFKA_CFG_COMPRESSION_TYPE: 'gzip'
+      KAFKA_CFG_LOG_ROLL_HOURS: '1'
+
+  kafdrop:
+    container_name: zam-step-kafdrop
+    image: obsidiandynamics/kafdrop:3.30.0
+    mem_limit: 500M
+    restart: always
+    ports:
+      - "12214:9000"                              #  http://localhost:12214
+    environment:
+      KAFKA_BROKERCONNECT: "kf:9092"
+      SERVER_PORT: "9000"
+      JVM_OPTS: "-Xms500M -Xmx500M"
+      SERVER_SERVLET_CONTEXTPATH: "/"

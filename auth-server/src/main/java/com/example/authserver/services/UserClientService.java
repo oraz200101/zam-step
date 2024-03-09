@@ -1,10 +1,9 @@
 package com.example.authserver.services;
 
-import com.example.authserver.models.dtos.UserDto;
+import com.example.authserver.models.dtos.UserLoginDto;
 
 public interface UserClientService {
 
-    UserDto getUser(Long id);
-
+    UserLoginDto getUser(Long id);
 
 }

@@ -30,6 +30,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     runtimeOnly 'org.postgresql:postgresql'
+
+    implementation 'org.springframework.kafka:spring-kafka:3.1.2'
     implementation 'org.flywaydb:flyway-core'
     implementation "org.mapstruct:mapstruct:1.5.4.Final"
     annotationProcessor "org.mapstruct:mapstruct-processor:1.5.4.Final"

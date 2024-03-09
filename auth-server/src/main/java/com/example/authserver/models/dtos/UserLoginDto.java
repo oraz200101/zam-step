@@ -7,7 +7,7 @@ import java.util.Set;
 
 
 @AllArgsConstructor
-public class UserDto {
+public class UserLoginDto {
     private Long      id;
     private String    email;
     private Set<Role> roles;
