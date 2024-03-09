@@ -1,0 +1,31 @@
+version: '2.3'
+
+networks:
+  default:
+    name: zam-step-network
+    ipam:
+      driver: default
+      config:
+        - subnet: 173.36.0.0/16
+
+services:
+  user_db:
+    image: postgres:15
+    container_name: user-service-db
+    restart: always
+    mem_limit: 700M
+    environment:
+      POSTGRES_PASSWORD: "1234"
+      POSTGRES_PORT: "12219"
+      POSTGRES_USER: "oraz"
+      POSTGRES_DB: "postgres"
+    ports:
+      - "12219:5432"
+    volumes:
+      - ~/volumes/user-service/pg-data:/var/lib/postgresql/data
+      - ./user-init:/docker-entrypoint-initdb.d
+    command:
+      - "docker-entrypoint.sh"
+      - "-c"
+      - "max-connections=800"
+

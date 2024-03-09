@@ -1,0 +1,23 @@
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://${DATABASE_HOST:localhost}:${DATABASE_PORT:12219}/${DATABASE_NAME:postgres}
+    username: ${DATABASE_USER:oraz}
+    password: ${DATABASE_PASSWORD:1234}
+  flyway:
+    enabled: true
+    validate-on-migrate: true
+server:
+  servlet:
+    contextPath: ${ROOT_URL:/api}
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+
+
+

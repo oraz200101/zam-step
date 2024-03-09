@@ -1,0 +1,5 @@
+rootProject.name = 'zam-step'
+include 'eureka-server'
+include 'api-gateway'
+include 'auth-server'
+include 'user-service'
