@@ -5,6 +5,8 @@ import com.example.authserver.services.UserClientService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -20,9 +22,9 @@ public class UserClientServiceImpl implements UserClientService {
     private final ObjectMapper objectMapper;
 
     @Override
-    public UserLoginDto getUser(Long id) {
+    public UserLoginDto getUser(String email) {
         return userClient.get().uri(UriComponentsBuilder.fromPath("/user/to-auth")
-                                                        .queryParam("id", id)
+                                                        .queryParam("email", email)
                                                         .toUriString()).exchange(((request, response) -> {
             if (response.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(204))) {
                 throw new RuntimeException();
@@ -34,5 +36,8 @@ public class UserClientServiceImpl implements UserClientService {
         }));
     }
 
-
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return getUser(email);
+    }
 }

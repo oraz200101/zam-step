@@ -28,7 +28,7 @@ public class UserEntity {
     @Column(name = "patronymic")
     private String patronymic;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "password")

@@ -23,9 +23,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserToAuthService toAuthService(Long id) {
-        UserEntity user = repository.findById(id)
-                                    .orElseThrow(() -> new UsernameNotFoundException("user with id " + id + "not found"));
+    public UserToAuthService toAuthService(String email) {
+
+        UserEntity user = repository.findByEmail(email)
+                                    .orElseThrow(() -> new UsernameNotFoundException("user with email " + email + "not found"));
 
         return mapper.mapToDto(user);
     }

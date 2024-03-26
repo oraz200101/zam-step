@@ -30,13 +30,10 @@ public class JwtTokenProvider {
         this.key = Keys.hmacShaKeyFor(jwtProperties.getSecret().getBytes());
     }
 
-    public String createAccessToken(final Long userId,
-                                    final String email,
-                                    final Set<Role> roles) {
+    public String createAccessToken(final String email, final Set<Role> roles) {
 
         Claims claims = Jwts.claims()
                             .subject(email)
-                            .add("userId", userId)
                             .add("roles", resolveRoles(roles))
                             .build();
 
@@ -50,12 +47,9 @@ public class JwtTokenProvider {
                    .compact();
     }
 
-    public String createRefreshToken(final Long userId,
-                                     final String email,
-                                     final Set<Role> roles) {
+    public String createRefreshToken(final String email, final Set<Role> roles) {
         Claims claims = Jwts.claims()
                             .subject(email)
-                            .add("userId", userId)
                             .add("roles", resolveRoles(roles))
                             .build();
 

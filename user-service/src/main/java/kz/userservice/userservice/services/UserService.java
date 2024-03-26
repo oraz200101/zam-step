@@ -7,5 +7,5 @@ public interface UserService {
 
     void createUser(UserRegistrationDto registrationRequest);
 
-    UserToAuthService toAuthService(Long id);
+    UserToAuthService toAuthService(String email);
 }

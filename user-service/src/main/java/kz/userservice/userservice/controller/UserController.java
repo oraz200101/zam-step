@@ -4,10 +4,8 @@ import kz.userservice.userservice.models.dtos.UserToAuthService;
 import kz.userservice.userservice.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
@@ -17,7 +15,8 @@ public class UserController {
     private final UserService service;
 
     @GetMapping("/to-auth")
-    ResponseEntity<UserToAuthService> getUser(@RequestParam(name = "id") Long id){
-        return ResponseEntity.ok(service.toAuthService(id));
+    ResponseEntity<UserToAuthService> getUser(@RequestParam("email") String email){
+        return ResponseEntity.ok(service.toAuthService(email));
     }
+
 }
