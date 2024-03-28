@@ -9,6 +9,25 @@ networks:
         - subnet: 173.36.0.0/16
 
 services:
+  auth_db:
+    image: postgres:15
+    container_name: auth-service-db
+    restart: always
+    mem_limit: 700M
+    environment:
+      POSTGRES_PASSWORD: "1234"
+      POSTGRES_PORT: "12220"
+      POSTGRES_USER: "auth"
+      POSTGRES_DB: "postgres"
+    ports:
+      - "12218:5432"
+    volumes:
+      - ~/volumes/auth-service/pg-data:/var/lib/postgresql/data
+      - ./auth-init:/docker-entrypoint-initdb.d
+    command:
+      - "docker-entrypoint.sh"
+      - "-c"
+      - "max-connections=800"
   user_db:
     image: postgres:15
     container_name: user-service-db

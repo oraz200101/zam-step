@@ -1,9 +1,9 @@
 package com.example.authserver.kafka.producer;
 
-import com.example.authserver.models.dtos.UserRegistrationRequest;
+import com.example.authserver.models.dtos.UserRegistrationKafka;
 
 public interface KafkaProducer {
 
-    void sendModelUserRegistration(UserRegistrationRequest registrationRequest);
+    void sendModelUserRegistration(UserRegistrationKafka registrationKafka);
 
 }

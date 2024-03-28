@@ -1,28 +1,48 @@
 server:
-  port: 8081
   servlet:
     contextPath: ${ROOT_URL:/api}
-security:
-  jwt:
-    secret: 9a4f2c8d3b7a1e6f45c8a0b3f267d8b1d4e6f3c8a9d2b5f8e3a9c8b5f6v8a3d9
-    access: 1
-    refresh: 30
-user:
-  client:
-    url: http://localhost:8080/api
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+  port: 8081
+
 spring:
   application:
     name: auth-server
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+
+  datasource:
+    url: jdbc:postgresql://${DATABASE_HOST:localhost}:${DATABASE_PORT:12218}/${DATABASE_NAME:postgres}
+    username: ${DATABASE_USER:auth}
+    password: ${DATABASE_PASSWORD:1234}
+
+  flyway:
+    enabled: true
+    validate-on-migrate: true
+
   kafka:
     bootstrap-servers: localhost:12211
     consumer:
       group-id: my-group
     producer:
       client-id: my-producer
+
+security:
+  jwt:
+    secret: 9a4f2c8d3b7a1e6f45c8a0b3f267d8b1d4e6f3c8a9d2b5f8e3a9c8b5f6v8a3d9
+    access: 1
+    refresh: 30
+
+user:
+  client:
+    url: http://localhost:8080/api
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
 
 
 

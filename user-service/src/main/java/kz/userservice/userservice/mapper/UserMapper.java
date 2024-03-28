@@ -8,22 +8,15 @@ import kz.userservice.userservice.models.enums.Role;
 import kz.userservice.userservice.utils.DateUtil;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Set;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, builder = @Builder(disableBuilder = true))
 @RequiredArgsConstructor
 public abstract class UserMapper {
-
-    @Autowired
-    protected PasswordEncoder passwordEncoder;
-
     @BeforeMapping
     protected void setUp(@MappingTarget UserEntity entity, UserRegistrationDto dto) {
         entity.setRoles(Set.of(Role.USER));
-        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
         entity.setBirthDate(DateUtil.parseToLocalDateTime(dto.getBirthDate()));
     }
 

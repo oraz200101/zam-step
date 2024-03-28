@@ -1,11 +1,12 @@
-package kz.userservice.userservice.models.dtos;
+package com.example.authserver.models.dtos;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.stereotype.Service;
 
 @Getter
 @Setter
-public class UserRegistrationDto {
+public class UserRegistrationKafka {
     private Long   id;
     private String firstname;
     private String lastname;

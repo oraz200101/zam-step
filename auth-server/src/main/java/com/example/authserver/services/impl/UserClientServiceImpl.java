@@ -5,8 +5,6 @@ import com.example.authserver.services.UserClientService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatusCode;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -34,10 +32,5 @@ public class UserClientServiceImpl implements UserClientService {
                 throw new RemoteException();
             }
         }));
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return getUser(email);
     }
 }

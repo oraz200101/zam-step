@@ -28,17 +28,30 @@ configurations {
 }
 
 dependencies {
+    // region spring
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+    implementation 'org.springframework.security:spring-security-crypto:6.2.3'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    // endregion spring
+
+    // region kafka
+    implementation 'org.springframework.kafka:spring-kafka:3.1.2'
+    // endregion kafka
 
     // region lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     // endregion lombok
 
-    implementation 'org.springframework.kafka:spring-kafka:3.1.2'
+    // region postgres
+    runtimeOnly 'org.postgresql:postgresql'
+    // endregion postgres
 
+    // region flyway
+    implementation 'org.flywaydb:flyway-core'
+    // endregion flyway
 
     // region jsonwebtoken
     implementation "io.jsonwebtoken:jjwt-api:${jsonwebtokenVersion}"
@@ -46,10 +59,13 @@ dependencies {
     runtimeOnly "io.jsonwebtoken:jjwt-jackson:${jsonwebtokenVersion}"
     // endregion jsonwebtoken
 
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    // region mapstruct
+    implementation "org.mapstruct:mapstruct:1.5.4.Final"
+    annotationProcessor "org.mapstruct:mapstruct-processor:1.5.4.Final"
+    annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.1.0'
+    // endregion mapstruct
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.security:spring-security-test'
 }
 
 dependencyManagement {
