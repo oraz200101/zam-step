@@ -1,5 +1,6 @@
 package com.example.authserver.services.impl;
 
+import com.example.authserver.exception.NotFoundException;
 import com.example.authserver.jwt.JwtTokenProvider;
 import com.example.authserver.kafka.producer.KafkaProducer;
 import com.example.authserver.mapper.AuthMapper;
@@ -9,6 +10,7 @@ import com.example.authserver.models.dtos.UserRegistrationRequest;
 import com.example.authserver.models.entities.AuthEntity;
 import com.example.authserver.repository.AuthRepository;
 import com.example.authserver.services.AuthService;
+import com.example.authserver.utils.validation.UserValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,8 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void registration(final UserRegistrationRequest request) {
+        UserValidator.validate(request);
+
         AuthEntity entity = repository.save(mapper.mapToEntity(request));
 
         kafkaProducer.sendModelUserRegistration(mapper.mapToKafka(entity, request));
@@ -39,7 +43,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         AuthEntity entity = repository.findByEmail(request.getEmail())
-                                      .orElseThrow(()-> new RuntimeException("user with email: " + request.getEmail() + " not found"));
+                                      .orElseThrow(()-> new NotFoundException("user with email: " + request.getEmail() + " not found"));
 
         response.setAccessToken(jwtTokenProvider.createAccessToken(entity.getEmail(), entity.getRoles()));
         response.setRefreshToken(jwtTokenProvider.createRefreshToken(entity.getEmail(), entity.getRoles()));
@@ -50,7 +54,7 @@ public class AuthServiceImpl implements AuthService {
 
     private boolean isRightLoginAndPassword(JwtRequestDto request) {
         AuthEntity entity = repository.findByEmail(request.getEmail())
-                                      .orElseThrow(() -> new RuntimeException("wrong email"));
+                                      .orElseThrow(()-> new NotFoundException("user with email: " + request.getEmail() + " not found"));
 
         return passwordEncoder.matches(request.getPassword(), entity.getPassword());
     }
