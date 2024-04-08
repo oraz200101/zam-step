@@ -69,6 +69,4 @@ public class JwtTokenProvider {
                     .map(Enum::name)
                     .collect(Collectors.toList());
     }
-
-
 }

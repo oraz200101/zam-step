@@ -1,11 +1,13 @@
 package kz.userservice.userservice.services;
 
+import kz.userservice.userservice.models.dtos.UserProfileDto;
 import kz.userservice.userservice.models.dtos.UserRegistrationDto;
-import kz.userservice.userservice.models.dtos.UserToAuthService;
+import kz.userservice.userservice.models.dtos.UserUpdateRequestDto;
 
 public interface UserService {
 
     void createUser(UserRegistrationDto registrationRequest);
 
-    UserToAuthService toAuthService(String email);
+    UserProfileDto updateProfile(UserUpdateRequestDto request);
+
 }

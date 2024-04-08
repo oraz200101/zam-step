@@ -1,8 +1,9 @@
 package kz.userservice.userservice.mapper;
 
 
+import kz.userservice.userservice.models.dtos.UserProfileDto;
 import kz.userservice.userservice.models.dtos.UserRegistrationDto;
-import kz.userservice.userservice.models.dtos.UserToAuthService;
+import kz.userservice.userservice.models.dtos.UserUpdateRequestDto;
 import kz.userservice.userservice.models.entities.UserEntity;
 import kz.userservice.userservice.models.enums.Role;
 import kz.userservice.userservice.utils.DateUtil;
@@ -20,10 +21,15 @@ public abstract class UserMapper {
         entity.setBirthDate(DateUtil.parseToLocalDateTime(dto.getBirthDate()));
     }
 
+
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "roles", ignore = true)
     @Mapping(target = "birthDate", ignore = true)
     public abstract UserEntity mapToEntity(UserRegistrationDto userRegistrationRequest);
 
-    public abstract UserToAuthService mapToDto(UserEntity user);
+
+    @Mapping(target = "password", ignore = true)
+    public abstract UserEntity mapToEntity(@MappingTarget UserEntity entity, UserUpdateRequestDto userUpdateRequestDto);
+
+    public abstract UserProfileDto mapToDto(UserEntity entity);
 }
