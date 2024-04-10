@@ -7,6 +7,7 @@ import com.example.authserver.services.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,6 +26,16 @@ public class AuthController {
     @GetMapping("/login")
     public ResponseEntity<JwtResponseDto> login(@RequestBody JwtRequestDto request){
          return ResponseEntity.ok(service.login(request));
+    }
+
+    @GetMapping("/check-token")
+    public boolean tokenIsValid(@RequestParam("token") String token){
+        return service.tokenIsValid(token);
+    }
+
+    @GetMapping("/produce-authentication")
+    public ResponseEntity<Authentication> produceAuthentication(@RequestParam String token){
+        return ResponseEntity.ok(service.produceAuthentication(token));
     }
 
 }

@@ -34,5 +34,8 @@ eureka:
     serviceUrl:
       defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
 
+auth:
+  server:
+    URI: ${AUT_SERVER_URI:http://localhost:8080/api/auth}
 
 

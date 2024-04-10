@@ -12,6 +12,9 @@ import com.example.authserver.repository.AuthRepository;
 import com.example.authserver.services.AuthService;
 import com.example.authserver.utils.validation.UserValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -51,11 +54,27 @@ public class AuthServiceImpl implements AuthService {
         return response;
     }
 
+    @Override
+    public boolean tokenIsValid(String token) {
+        return jwtTokenProvider.isValid(token);
+    }
+
+    @Override
+    public Authentication produceAuthentication(String token) {
+        return jwtTokenProvider.getAuthentication(token);
+    }
+
 
     private boolean isRightLoginAndPassword(JwtRequestDto request) {
         AuthEntity entity = repository.findByEmail(request.getEmail())
                                       .orElseThrow(()-> new NotFoundException("user with email: " + request.getEmail() + " not found"));
 
         return passwordEncoder.matches(request.getPassword(), entity.getPassword());
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return repository.findByEmail(username)
+                         .orElseThrow(()-> new NotFoundException("user with email: " + username + " not found"));
     }
 }

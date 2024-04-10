@@ -4,7 +4,6 @@ import kz.userservice.userservice.execptions.UserNotFoundException;
 import kz.userservice.userservice.models.entities.UserEntity;
 import kz.userservice.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;

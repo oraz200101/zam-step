@@ -1,12 +1,17 @@
 package com.example.authserver.jwt;
 
 import com.example.authserver.models.enums.Role;
+import com.example.authserver.services.AuthService;
 import com.example.authserver.services.props.JwtProperties;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -22,6 +27,7 @@ import java.util.stream.Collectors;
 public class JwtTokenProvider {
 
     private       SecretKey     key;
+    private final AuthService   authService;
     private final JwtProperties jwtProperties;
 
     @PostConstruct
@@ -36,8 +42,7 @@ public class JwtTokenProvider {
                             .add("roles", resolveRoles(roles))
                             .build();
 
-        Instant validity = Instant.now()
-                                  .plus(jwtProperties.getAccess(), ChronoUnit.HOURS);
+        Instant validity = Instant.now().plus(jwtProperties.getAccess(), ChronoUnit.HOURS);
 
         return Jwts.builder()
                    .claims(claims)
@@ -52,8 +57,7 @@ public class JwtTokenProvider {
                             .add("roles", resolveRoles(roles))
                             .build();
 
-        Instant validity = Instant.now()
-                                  .plus(jwtProperties.getRefresh(), ChronoUnit.HOURS);
+        Instant validity = Instant.now().plus(jwtProperties.getRefresh(), ChronoUnit.HOURS);
 
         return Jwts.builder()
                    .claims(claims)
@@ -62,11 +66,44 @@ public class JwtTokenProvider {
                    .compact();
     }
 
-    private List<String> resolveRoles(
-            final Set<Role> roles
-    ) {
+    private List<String> resolveRoles(final Set<Role> roles) {
         return roles.stream()
                     .map(Enum::name)
                     .collect(Collectors.toList());
+    }
+
+    public boolean isValid(final String token) {
+        Jws<Claims> claims = Jwts.parser()
+                                 .verifyWith(key)
+                                 .build()
+                                 .parseSignedClaims(token);
+
+        return claims.getPayload()
+                     .getExpiration()
+                     .after(new Date());
+    }
+
+    private String getId(final String token) {
+        return Jwts.parser()
+                   .verifyWith(key)
+                   .build()
+                   .parseSignedClaims(token)
+                   .getPayload()
+                   .get("id", String.class);
+    }
+
+    private String getUsername(final String token) {
+        return Jwts.parser()
+                   .verifyWith(key)
+                   .build()
+                   .parseSignedClaims(token)
+                   .getPayload()
+                   .getSubject();
+    }
+
+    public Authentication getAuthentication(final String token) {
+        String      username    = getUsername(token);
+        UserDetails userDetails = authService.loadUserByUsername(username);
+        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 }
