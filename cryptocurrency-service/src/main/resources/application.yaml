@@ -1,0 +1,31 @@
+server:
+  servlet:
+    contextPath: ${ROOT_URL:/api}
+  port: 8083
+
+spring:
+  application:
+    name: cryptocurrency-server
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://${DATABASE_HOST:localhost}:${DATABASE_PORT:12220}/${DATABASE_NAME:postgres?currentSchema=cryptocurrency_schema}
+    username: ${DATABASE_USER:crypto}
+    password: ${DATABASE_PASSWORD:1234}
+  kafka:
+    bootstrap-servers: localhost:12211
+    consumer:
+      group-id: my-group
+    producer:
+      client-id: my-producer
+#  flyway:
+#    enabled: true
+#    validate-on-migrate: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
