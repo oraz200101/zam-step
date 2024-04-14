@@ -10,4 +10,6 @@ public interface UserService {
 
     UserProfileDto updateProfile(UserUpdateRequestDto request);
 
+    UserProfileDto getProfile();
+
 }

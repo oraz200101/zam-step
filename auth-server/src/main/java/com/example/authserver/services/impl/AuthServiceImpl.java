@@ -11,7 +11,9 @@ import com.example.authserver.models.entities.AuthEntity;
 import com.example.authserver.repository.AuthRepository;
 import com.example.authserver.services.AuthService;
 import com.example.authserver.utils.validation.UserValidator;
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,14 +21,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Lazy))
 public class AuthServiceImpl implements AuthService {
 
-    private final AuthMapper        mapper;
-    private final KafkaProducer     kafkaProducer;
-    private final AuthRepository    repository;
-    private final PasswordEncoder   passwordEncoder;
-    private final JwtTokenProvider  jwtTokenProvider;
+    private final AuthMapper       mapper;
+    private final KafkaProducer    kafkaProducer;
+    private final AuthRepository   repository;
+    private final PasswordEncoder  passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     public void registration(final UserRegistrationRequest request) {
@@ -46,7 +48,8 @@ public class AuthServiceImpl implements AuthService {
         }
 
         AuthEntity entity = repository.findByEmail(request.getEmail())
-                                      .orElseThrow(()-> new NotFoundException("user with email: " + request.getEmail() + " not found"));
+                                      .orElseThrow(
+                                              () -> new NotFoundException("user with email: " + request.getEmail() + " not found"));
 
         response.setAccessToken(jwtTokenProvider.createAccessToken(entity.getEmail(), entity.getRoles()));
         response.setRefreshToken(jwtTokenProvider.createRefreshToken(entity.getEmail(), entity.getRoles()));
@@ -56,7 +59,11 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public boolean tokenIsValid(String token) {
-        return jwtTokenProvider.isValid(token);
+        try {
+            return jwtTokenProvider.isValid(token);
+        } catch (ExpiredJwtException e) {
+            return false;
+        }
     }
 
     @Override
@@ -64,10 +71,10 @@ public class AuthServiceImpl implements AuthService {
         return jwtTokenProvider.getAuthentication(token);
     }
 
-
     private boolean isRightLoginAndPassword(JwtRequestDto request) {
         AuthEntity entity = repository.findByEmail(request.getEmail())
-                                      .orElseThrow(()-> new NotFoundException("user with email: " + request.getEmail() + " not found"));
+                                      .orElseThrow(
+                                              () -> new NotFoundException("user with email: " + request.getEmail() + " not found"));
 
         return passwordEncoder.matches(request.getPassword(), entity.getPassword());
     }
@@ -75,6 +82,6 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return repository.findByEmail(username)
-                         .orElseThrow(()-> new NotFoundException("user with email: " + username + " not found"));
+                         .orElseThrow(() -> new NotFoundException("user with email: " + username + " not found"));
     }
 }

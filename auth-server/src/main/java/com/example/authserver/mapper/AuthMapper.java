@@ -15,10 +15,8 @@ import java.util.Set;
 @RequiredArgsConstructor
 public abstract class AuthMapper {
 
-    protected PasswordEncoder passwordEncoder;
-
     @Autowired
-    public AuthMapper(PasswordEncoder passwordEncoder) {this.passwordEncoder = passwordEncoder;}
+    protected PasswordEncoder passwordEncoder;
 
     @BeforeMapping
     protected void setUp(@MappingTarget AuthEntity entity, UserRegistrationRequest request) {

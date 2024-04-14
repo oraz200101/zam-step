@@ -4,6 +4,7 @@ import com.example.authserver.models.enums.Role;
 import com.example.authserver.services.AuthService;
 import com.example.authserver.services.props.JwtProperties;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -72,15 +73,15 @@ public class JwtTokenProvider {
                     .collect(Collectors.toList());
     }
 
-    public boolean isValid(final String token) {
-        Jws<Claims> claims = Jwts.parser()
-                                 .verifyWith(key)
-                                 .build()
-                                 .parseSignedClaims(token);
+    public boolean isValid(final String token) throws ExpiredJwtException{
+            Jws<Claims> claims = Jwts.parser()
+                                     .verifyWith(key)
+                                     .build()
+                                     .parseSignedClaims(token);
 
-        return claims.getPayload()
-                     .getExpiration()
-                     .after(new Date());
+            return claims.getPayload()
+                         .getExpiration()
+                         .after(new Date());
     }
 
     private String getId(final String token) {

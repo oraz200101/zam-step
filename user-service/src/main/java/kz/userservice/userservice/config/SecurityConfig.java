@@ -1,5 +1,7 @@
 package kz.userservice.userservice.config;
 
+import kz.userservice.userservice.rest_client.AuthServerClient;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,11 +15,14 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final AuthServerClient authServerClient;
     @Bean
     @SneakyThrows
     public SecurityFilterChain filterChain(final HttpSecurity httpSecurity
@@ -53,9 +58,12 @@ public class SecurityConfig {
                                                              }))
                 .authorizeHttpRequests(configurer ->
                                                configurer.anyRequest().permitAll())
-                .anonymous(AbstractHttpConfigurer::disable);
+                .anonymous(AbstractHttpConfigurer::disable)
+                .addFilterBefore(new JwtTokenFilter(authServerClient),
+                                 UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }
+
     @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration authenticationConfiguration) throws Exception {

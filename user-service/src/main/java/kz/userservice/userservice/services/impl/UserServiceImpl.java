@@ -37,4 +37,11 @@ public class UserServiceImpl implements UserService {
 
         return mapper.mapToDto(entity);
     }
+
+    @Override
+    public UserProfileDto getProfile() {
+        UserEntity entity = authAdapter.currentUser();
+
+        return mapper.mapToDto(entity);
+    }
 }

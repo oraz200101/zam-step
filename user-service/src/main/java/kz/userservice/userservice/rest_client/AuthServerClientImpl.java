@@ -3,6 +3,7 @@ package kz.userservice.userservice.rest_client;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kz.userservice.userservice.annotations.RestClientAnnotation;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.client.RestClient;

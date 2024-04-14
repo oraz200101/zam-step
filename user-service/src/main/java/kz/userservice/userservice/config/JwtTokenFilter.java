@@ -5,7 +5,6 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import kz.userservice.userservice.rest_client.AuthServerClient;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.security.core.Authentication;
@@ -13,7 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
 
-@AllArgsConstructor
+
 @RequiredArgsConstructor
 public class JwtTokenFilter extends GenericFilterBean {
 
