@@ -6,6 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface HealthAnalysisRepository extends MongoRepository<HealthAnalysis, Long> {
-    List<HealthAnalysis> findAllByEmail(String email);
-
 }

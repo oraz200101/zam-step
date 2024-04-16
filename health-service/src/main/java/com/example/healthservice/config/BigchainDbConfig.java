@@ -24,16 +24,6 @@ public class BigchainDbConfig {
 
         // Установка API-адреса BigchainDB (необязательно, но может быть полезно для настройки пользовательского API)
         //BigChainDBGlobals.setWebsocketUrl(BIGCHAINDB_URL + BigchainDbApi.TRANSACTIONS_SOCKET);
-    @Bean
-    public BigchainDbConfig bigchainDbConfig() {
-        KeyPairGenerator edDsaKpg = new KeyPairGenerator();
-        KeyPair keyPair = edDsaKpg.generateKeyPair();
-
-        BigchainDbConfigBuilder.baseUrl(BIGCHAINDB_URL)
-                .addToken("id", "id")
-                .addToken("key", "key")
-                .setup();
-        return new BigchainDbConfig();
     }
 
     @Bean

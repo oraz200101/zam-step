@@ -18,9 +18,8 @@ public class HealthAnalysisController {
     private final IHealthAnalysisServices healthAnalysisServices;
 
     @GetMapping
-    public ResponseEntity<List<HealthAnalysisResponseDto>> getAllHealthAnalysisByEmail(
-            @RequestParam(name = "email", required = true) String email) {
-        return ResponseEntity.ok(healthAnalysisServices.getAllHealthAnalysis(email));
+    public ResponseEntity<List<HealthAnalysisResponseDto>> getAllHealthAnalysis() {
+        return ResponseEntity.ok(healthAnalysisServices.getAllHealthAnalysis());
     }
 
     @GetMapping("/{id}")
