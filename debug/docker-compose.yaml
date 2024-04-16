@@ -47,6 +47,21 @@ services:
       - "docker-entrypoint.sh"
       - "-c"
       - "max-connections=800"
+
+  bigchaindb:
+    image: bigchaindb/bigchaindb:all-in-one
+    container_name: bigchaindb
+    ports:
+      - "9984:9984"
+      - "9985:9985"
+      - "27017:27017"
+      - "26657:26657"
+    volumes:
+      - $HOME/bigchaindb_docker/mongodb/data/db:/data/db
+      - $HOME/bigchaindb_docker/mongodb/data/configdb:/data/configdb
+      - $HOME/bigchaindb_docker/tendermint:/tendermint
+
+
   zoo:
     container_name: zam-step-zoo
     image: confluentinc/cp-zookeeper:5.5.0
