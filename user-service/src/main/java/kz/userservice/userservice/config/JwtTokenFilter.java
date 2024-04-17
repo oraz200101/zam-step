@@ -12,7 +12,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
 
-
 @RequiredArgsConstructor
 public class JwtTokenFilter extends GenericFilterBean {
 

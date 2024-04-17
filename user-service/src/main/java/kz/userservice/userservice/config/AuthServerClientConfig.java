@@ -9,10 +9,10 @@ import org.springframework.web.client.RestClient;
 public class AuthServerClientConfig {
 
     @Value("${auth.server.URI}")
-    String baseURI;
+    private String baseURI;
 
     @Bean
-    RestClient restClient() {
+    public RestClient restClient() {
         return RestClient.create(baseURI);
     }
 }
