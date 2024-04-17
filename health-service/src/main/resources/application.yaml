@@ -1,0 +1,18 @@
+server:
+  servlet:
+    contextPath: ${ROOT_URL:/api}
+  port: 8084
+
+spring:
+  application:
+    name: health-server
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: health_database
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}

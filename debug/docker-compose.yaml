@@ -16,7 +16,7 @@ services:
     mem_limit: 700M
     environment:
       POSTGRES_PASSWORD: "1234"
-      POSTGRES_PORT: "12218"
+      POSTGRES_PORT: "12220"
       POSTGRES_USER: "auth"
       POSTGRES_DB: "postgres"
     ports:
@@ -48,25 +48,19 @@ services:
       - "-c"
       - "max-connections=800"
 
-  crypto_db:
-    image: postgres:15
-    container_name: crypto-service-db
-    restart: always
-    mem_limit: 700M
-    environment:
-      POSTGRES_PASSWORD: "1234"
-      POSTGRES_PORT: "12220"
-      POSTGRES_USER: "crypto"
-      POSTGRES_DB: "postgres"
+  bigchaindb:
+    image: bigchaindb/bigchaindb:all-in-one
+    container_name: bigchaindb
     ports:
-      - "12220:5432"
-#    volumes:
-#      - ~/volumes/cryptocurrency-service/pg-data:/var/lib/postgresql/data
-#      - ./user-init:/docker-entrypoint-initdb.d
-    command:
-      - "docker-entrypoint.sh"
-      - "-c"
-      - "max-connections=800"
+      - "9984:9984"
+      - "9985:9985"
+      - "27017:27017"
+      - "26657:26657"
+    volumes:
+      - $HOME/bigchaindb_docker/mongodb/data/db:/data/db
+      - $HOME/bigchaindb_docker/mongodb/data/configdb:/data/configdb
+      - $HOME/bigchaindb_docker/tendermint:/tendermint
+
 
   zoo:
     container_name: zam-step-zoo
