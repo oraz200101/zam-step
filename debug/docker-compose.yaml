@@ -16,7 +16,7 @@ services:
     mem_limit: 700M
     environment:
       POSTGRES_PASSWORD: "1234"
-      POSTGRES_PORT: "12220"
+      POSTGRES_PORT: "12218"
       POSTGRES_USER: "auth"
       POSTGRES_DB: "postgres"
     ports:
@@ -47,6 +47,27 @@ services:
       - "docker-entrypoint.sh"
       - "-c"
       - "max-connections=800"
+
+  crypto_db:
+    image: postgres:15
+    container_name: crypto-service-db
+    restart: always
+    mem_limit: 700M
+    environment:
+      POSTGRES_PASSWORD: "1234"
+      POSTGRES_PORT: "12220"
+      POSTGRES_USER: "crypto"
+      POSTGRES_DB: "postgres"
+    ports:
+      - "12220:5432"
+#    volumes:
+#      - ~/volumes/cryptocurrency-service/pg-data:/var/lib/postgresql/data
+#      - ./user-init:/docker-entrypoint-initdb.d
+    command:
+      - "docker-entrypoint.sh"
+      - "-c"
+      - "max-connections=800"
+
   zoo:
     container_name: zam-step-zoo
     image: confluentinc/cp-zookeeper:5.5.0
