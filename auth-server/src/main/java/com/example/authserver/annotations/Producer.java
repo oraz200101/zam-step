@@ -1,4 +1,4 @@
-package kz.userservice.userservice.annotations;
+package com.example.authserver.annotations;
 
 import org.springframework.stereotype.Component;
 
@@ -8,5 +8,5 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Component
-public @interface RestClientAnnotation {
+public @interface Producer {
 }

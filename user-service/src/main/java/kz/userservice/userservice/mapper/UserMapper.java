@@ -15,6 +15,7 @@ import java.util.Set;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, builder = @Builder(disableBuilder = true))
 @RequiredArgsConstructor
 public abstract class UserMapper {
+
     @BeforeMapping
     protected void setUp(@MappingTarget UserEntity entity, UserRegistrationDto dto) {
         entity.setRoles(Set.of(Role.USER));

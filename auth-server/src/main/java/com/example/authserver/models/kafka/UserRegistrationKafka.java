@@ -1,8 +1,7 @@
-package com.example.authserver.models.dtos;
+package com.example.authserver.models.kafka;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.stereotype.Service;
 
 @Getter
 @Setter

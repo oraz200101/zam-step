@@ -1,4 +1,4 @@
-package com.example.authserver.annotations;
+package kz.userservice.userservice.annotations;
 
 import org.springframework.stereotype.Component;
 
@@ -8,5 +8,5 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Component
-public @interface KafkaProducerAnnotation {
+public @interface Producer {
 }

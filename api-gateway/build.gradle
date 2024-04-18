@@ -19,9 +19,15 @@ ext {
 	set('springCloudVersion', "2023.0.0")
 }
 dependencies {
+
+	// region spring
 	implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+	// endregion spring
+
+	// region test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	// endregion test
 }
 
 dependencyManagement {

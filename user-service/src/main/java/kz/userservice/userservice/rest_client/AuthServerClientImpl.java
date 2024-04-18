@@ -1,7 +1,7 @@
 package kz.userservice.userservice.rest_client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import kz.userservice.userservice.annotations.RestClientAnnotation;
+import kz.userservice.userservice.annotations.Client;
 import kz.userservice.userservice.models.dtos.authentication.AuthenticationDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatusCode;
@@ -12,7 +12,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.rmi.RemoteException;
 
 
-@RestClientAnnotation
+@Client
 @RequiredArgsConstructor
 public class AuthServerClientImpl implements AuthServerClient {
 

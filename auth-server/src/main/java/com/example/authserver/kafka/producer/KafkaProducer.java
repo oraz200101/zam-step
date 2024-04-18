@@ -1,6 +1,6 @@
 package com.example.authserver.kafka.producer;
 
-import com.example.authserver.models.dtos.UserRegistrationKafka;
+import com.example.authserver.models.kafka.UserRegistrationKafka;
 
 public interface KafkaProducer {
 

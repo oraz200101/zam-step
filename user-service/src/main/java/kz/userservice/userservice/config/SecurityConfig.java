@@ -22,6 +22,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private static final String UNAUTHORIZED_MESSAGE = "Unauthorized";
+
     private final AuthServerClient authServerClient;
 
     @Bean
@@ -46,7 +48,7 @@ public class SecurityConfig {
                                                                                  .value()
                                                                  );
                                                                  response.getWriter()
-                                                                         .write("Unauthorized.");
+                                                                         .write(UNAUTHORIZED_MESSAGE);
                                                              })
                                                      .accessDeniedHandler(
                                                              (request, response, exception) -> {
@@ -55,7 +57,7 @@ public class SecurityConfig {
                                                                                  .value()
                                                                  );
                                                                  response.getWriter()
-                                                                         .write("Unauthorized.");
+                                                                         .write(UNAUTHORIZED_MESSAGE);
                                                              }))
                 .authorizeHttpRequests(configurer ->
                                                configurer.anyRequest().permitAll())

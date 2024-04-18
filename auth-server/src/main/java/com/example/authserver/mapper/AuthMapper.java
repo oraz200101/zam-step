@@ -1,6 +1,7 @@
 package com.example.authserver.mapper;
 
-import com.example.authserver.models.dtos.UserRegistrationKafka;
+import com.example.authserver.models.dtos.AuthUpdateDto;
+import com.example.authserver.models.kafka.UserRegistrationKafka;
 import com.example.authserver.models.dtos.UserRegistrationRequest;
 import com.example.authserver.models.entities.AuthEntity;
 import com.example.authserver.models.enums.Role;
@@ -41,5 +42,15 @@ public abstract class AuthMapper {
     @Mapping(target = "birthDate", source = "request.birthDate")
     @Mapping(target = "password", ignore = true)
     public abstract UserRegistrationKafka mapToKafka(AuthEntity entity, UserRegistrationRequest request);
+
+    @BeforeMapping
+    protected void setUp(@MappingTarget AuthEntity entity, AuthUpdateDto  updateDto) {
+        entity.setEmail(updateDto.getEmail());
+        entity.setPassword(passwordEncoder.encode(updateDto.getPassword()));
+    }
+
+    @Mapping(target = "id", ignore = true)
+    public abstract AuthEntity mapToEntity(AuthUpdateDto updateDto);
+
 }
 
