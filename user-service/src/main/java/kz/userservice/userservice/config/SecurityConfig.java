@@ -23,6 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final AuthServerClient authServerClient;
+
     @Bean
     @SneakyThrows
     public SecurityFilterChain filterChain(final HttpSecurity httpSecurity
