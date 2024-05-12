@@ -22,12 +22,10 @@ public abstract class UserMapper {
         entity.setBirthDate(DateUtil.parseToLocalDateTime(dto.getBirthDate()));
     }
 
-
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "roles", ignore = true)
     @Mapping(target = "birthDate", ignore = true)
     public abstract UserEntity mapToEntity(UserRegistrationDto userRegistrationRequest);
-
 
     @Mapping(target = "password", ignore = true)
     public abstract UserEntity mapToEntity(@MappingTarget UserEntity entity, UserUpdateRequestDto userUpdateRequestDto);

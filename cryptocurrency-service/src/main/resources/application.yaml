@@ -12,7 +12,7 @@ spring:
       ddl-auto: update
     show-sql: true
   datasource:
-    url: jdbc:postgresql://${DATABASE_HOST:localhost}:${DATABASE_PORT:12220}/${DATABASE_NAME:postgres?currentSchema=cryptocurrency_schema}
+    url: jdbc:postgresql://${DATABASE_HOST:localhost}:${DATABASE_PORT:12212}/${DATABASE_NAME:postgres?currentSchema=cryptocurrency_schema}
     username: ${DATABASE_USER:crypto}
     password: ${DATABASE_PASSWORD:1234}
   kafka:

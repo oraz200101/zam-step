@@ -13,14 +13,13 @@ services:
     image: postgres:15
     container_name: auth-service-db
     restart: always
-    mem_limit: 700M
     environment:
       POSTGRES_PASSWORD: "1234"
-      POSTGRES_PORT: "12220"
+      POSTGRES_PORT: "12210"
       POSTGRES_USER: "auth"
       POSTGRES_DB: "postgres"
     ports:
-      - "12218:5432"
+      - "12210:5432"
     volumes:
       - ~/volumes/auth-service/pg-data:/var/lib/postgresql/data
       - ./auth-init:/docker-entrypoint-initdb.d
@@ -28,6 +27,7 @@ services:
       - "docker-entrypoint.sh"
       - "-c"
       - "max-connections=800"
+
   user_db:
     image: postgres:15
     container_name: user-service-db
@@ -35,11 +35,11 @@ services:
     mem_limit: 700M
     environment:
       POSTGRES_PASSWORD: "1234"
-      POSTGRES_PORT: "12219"
+      POSTGRES_PORT: "12211"
       POSTGRES_USER: "oraz"
       POSTGRES_DB: "postgres"
     ports:
-      - "12219:5432"
+      - "12211:5432"
     volumes:
       - ~/volumes/user-service/pg-data:/var/lib/postgresql/data
       - ./user-init:/docker-entrypoint-initdb.d
@@ -47,19 +47,19 @@ services:
       - "docker-entrypoint.sh"
       - "-c"
       - "max-connections=800"
-
-  bigchaindb:
-    image: bigchaindb/bigchaindb:all-in-one
-    container_name: bigchaindb
-    ports:
-      - "9984:9984"
-      - "9985:9985"
-      - "27017:27017"
-      - "26657:26657"
-    volumes:
-      - $HOME/bigchaindb_docker/mongodb/data/db:/data/db
-      - $HOME/bigchaindb_docker/mongodb/data/configdb:/data/configdb
-      - $HOME/bigchaindb_docker/tendermint:/tendermint
+  #
+  #  bigchaindb:
+  #    image: bigchaindb/bigchaindb:all-in-one
+  #    container_name: bigchaindb
+  #    ports:
+  #      - "9984:9984"
+  #      - "9985:9985"
+  #      - "27017:27017"
+  #      - "26657:26657"
+  #    volumes:
+  #      - $HOME/bigchaindb_docker/mongodb/data/db:/data/db
+  #      - $HOME/bigchaindb_docker/mongodb/data/configdb:/data/configdb
+  #      - $HOME/bigchaindb_docker/tendermint:/tendermint
 
   crypto_db:
     image: postgres:15
@@ -68,11 +68,11 @@ services:
     mem_limit: 700M
     environment:
       POSTGRES_PASSWORD: "1234"
-      POSTGRES_PORT: "12220"
+      POSTGRES_PORT: "12212"
       POSTGRES_USER: "crypto"
       POSTGRES_DB: "postgres"
     ports:
-      - "12220:5432"
+      - "12212:5432"
     #    volumes:
     #      - ~/volumes/cryptocurrency-service/pg-data:/var/lib/postgresql/data
     #      - ./user-init:/docker-entrypoint-initdb.d
@@ -88,7 +88,7 @@ services:
     mem_limit: 200M
     restart: always
     ports:
-      - "12212:2181"
+      - "12214:2181"
     volumes:
       - ~/volumes/sandbox/zookeeper/data:/var/lib/zookeeper/data
       - ~/volumes/sandbox/zookeeper/log:/var/lib/zookeeper/log
@@ -105,7 +105,7 @@ services:
     restart: always
     mem_limit: 500M
     ports:
-      - "12210:9001"                              #  http://localhost:12210
+      - "12215:9001"                              #  http://localhost:12210
     environment:
       HTTP_PORT: "9001"
       AUTO_CONNECT_CONNECTION_ID: "MAIN"
@@ -118,9 +118,9 @@ services:
     mem_limit: 1G
     restart: always
     ports:
-      - "12211:9093"
-      - "12220:9094"
-      - "12215:7071"
+      - "12216:9093"
+      - "12217:9094"
+      - "12218:7071"
     depends_on:
       - zoo
     volumes:
@@ -130,7 +130,7 @@ services:
       KAFKA_BROKER_ID: "1"
       ALLOW_PLAINTEXT_LISTENER: "yes"
       KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: "IN_DOCKER:PLAINTEXT,FROM_LOCALHOST:PLAINTEXT,FROM_OUT:PLAINTEXT"
-      KAFKA_CFG_ADVERTISED_LISTENERS: "IN_DOCKER://kf:9092,FROM_LOCALHOST://localhost:12211,FROM_OUT://192.168.11.23:10020"
+      KAFKA_CFG_ADVERTISED_LISTENERS: "IN_DOCKER://kf:9092,FROM_LOCALHOST://localhost:12216,FROM_OUT://192.168.11.23:10020"
       KAFKA_CFG_LISTENERS: "IN_DOCKER://0.0.0.0:9092,FROM_LOCALHOST://0.0.0.0:9093,FROM_OUT://0.0.0.0:9094"
       KAFKA_CFG_INTER_BROKER_LISTENER_NAME: "IN_DOCKER"
       KAFKA_CFG_ZOOKEEPER_CONNECT: "zoo:2181"
@@ -153,7 +153,7 @@ services:
     mem_limit: 500M
     restart: always
     ports:
-      - "12214:9000"                              #  http://localhost:12214
+      - "12219:9000"                              #  http://localhost:12214
     environment:
       KAFKA_BROKERCONNECT: "kf:9092"
       SERVER_PORT: "9000"

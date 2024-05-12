@@ -11,7 +11,7 @@ CREATE TABLE user_schema.users
     firstname  VARCHAR(255),
     lastname   VARCHAR(255),
     patronymic VARCHAR(255),
-    email      VARCHAR(255),
+    email      VARCHAR(255) unique,
     password   VARCHAR(255),
     birth_date date,
     CONSTRAINT pk_users PRIMARY KEY (id)

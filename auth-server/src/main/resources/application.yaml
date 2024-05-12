@@ -14,7 +14,7 @@ spring:
     show-sql: true
 
   datasource:
-    url: jdbc:postgresql://${DATABASE_HOST:localhost}:${DATABASE_PORT:12218}/${DATABASE_NAME:postgres}
+    url: jdbc:postgresql://${DATABASE_HOST:localhost}:${DATABASE_PORT:12210}/${DATABASE_NAME:postgres}
     username: ${DATABASE_USER:auth}
     password: ${DATABASE_PASSWORD:1234}
 
@@ -23,7 +23,7 @@ spring:
     validate-on-migrate: true
 
   kafka:
-    bootstrap-servers: localhost:12211
+    bootstrap-servers: localhost:12216
     consumer:
       group-id: my-group
     producer:

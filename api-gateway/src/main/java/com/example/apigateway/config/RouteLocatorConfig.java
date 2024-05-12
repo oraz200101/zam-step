@@ -12,7 +12,7 @@ public class RouteLocatorConfig {
     public RouteLocator routeLocator(RouteLocatorBuilder routeLocatorBuilder) {
         return routeLocatorBuilder.routes()
                                   .route("auth-route", r -> r.path("/api/auth/**").uri("http://localhost:8081/api/auth"))
-                                  .route("user-service-rout", r->r.path("/api/user/**").uri("http://localhost:8082/api/user"))
+                                  .route("user-service-route", r -> r.path("/api/user/**").uri("http://localhost:8082/api/user"))
                                   .build();
     }
 }
