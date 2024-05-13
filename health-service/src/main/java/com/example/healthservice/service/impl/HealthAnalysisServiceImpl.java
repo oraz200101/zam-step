@@ -25,10 +25,10 @@ public class HealthAnalysisServiceImpl implements IHealthAnalysisServices {
     }
 
     @Override
-    public HealthAnalysisResponseDto getHealthAnalysisByEmail(String email) {
+    public HealthAnalysisResponseDto getHealthAnalysisById(Long id) {
         return mapFromEntityToDto(repository
-                .findByEmail(email)
-                .orElseThrow(()-> new RuntimeException("Entity with ID: " + email +" not found")));
+                .findById(id)
+                .orElseThrow(()-> new RuntimeException("Entity with ID: " + id +" not found")));
     }
 
     @Override
@@ -48,6 +48,7 @@ public class HealthAnalysisServiceImpl implements IHealthAnalysisServices {
 
     public HealthAnalysisResponseDto mapFromEntityToDto(HealthAnalysis healthAnalysis) {
         return HealthAnalysisResponseDto.builder()
+                .id(healthAnalysis.getId())
                 .email(healthAnalysis.getEmail())
                 .stepsAmount(healthAnalysis.getStepsAmount())
                 .burnedCalories(healthAnalysis.getBurnedCalories())

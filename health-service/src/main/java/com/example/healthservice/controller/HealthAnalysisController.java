@@ -23,9 +23,9 @@ public class HealthAnalysisController {
         return ResponseEntity.ok(healthAnalysisServices.getAllHealthAnalysis(email));
     }
 
-    @GetMapping("/{email}")
-    public ResponseEntity<HealthAnalysisResponseDto> getHealthAnalysisByEmail(@PathVariable String email) {
-        return ResponseEntity.ok(healthAnalysisServices.getHealthAnalysisByEmail(email));
+    @GetMapping("/{id}")
+    public ResponseEntity<HealthAnalysisResponseDto> getHealthAnalysisById(@PathVariable Long id) {
+        return ResponseEntity.ok(healthAnalysisServices.getHealthAnalysisById(id));
     }
 
     @PostMapping

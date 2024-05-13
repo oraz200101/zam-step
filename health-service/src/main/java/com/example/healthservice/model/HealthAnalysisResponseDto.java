@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 public class HealthAnalysisResponseDto {
-
+    private Long id;
     private String email;
     private Integer stepsAmount;
     private Double burnedCalories;
