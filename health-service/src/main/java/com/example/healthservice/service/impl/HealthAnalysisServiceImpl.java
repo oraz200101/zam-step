@@ -20,15 +20,15 @@ public class HealthAnalysisServiceImpl implements IHealthAnalysisServices {
     private final HealthAnalysisRepository repository;
 
     @Override
-    public List<HealthAnalysisResponseDto> getAllHealthAnalysis() {
-        return repository.findAll().stream().map(this::mapFromEntityToDto).toList();
+    public List<HealthAnalysisResponseDto> getAllHealthAnalysis(String email) {
+        return repository.findAllByEmail(email).stream().map(this::mapFromEntityToDto).toList();
     }
 
     @Override
-    public HealthAnalysisResponseDto getHealthAnalysisById(Long id) {
+    public HealthAnalysisResponseDto getHealthAnalysisByEmail(String email) {
         return mapFromEntityToDto(repository
-                .findById(id)
-                .orElseThrow(()-> new RuntimeException("Entity with ID: " + id +" not found")));
+                .findByEmail(email)
+                .orElseThrow(()-> new RuntimeException("Entity with ID: " + email +" not found")));
     }
 
     @Override
