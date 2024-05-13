@@ -28,8 +28,8 @@ public class TransactionServiceImpl implements ITransactionService {
 
 
     @Override
-    public List<TransactionResponseDto> getAllTransactions() {
-        return transactionRepository.findAll().stream()
+    public List<TransactionResponseDto> getAllTransactionsByOwnerEmail(String email) {
+        return transactionRepository.getTransactionsByWalletOwnerEmail(email).stream()
                 .map(this::mapFromEntityToDto)
                 .toList();
     }

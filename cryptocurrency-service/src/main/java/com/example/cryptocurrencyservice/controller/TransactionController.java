@@ -18,8 +18,12 @@ public class TransactionController {
     private final ITransactionService transactionService;
 
     @GetMapping
-    public ResponseEntity<List<TransactionResponseDto>> getAllTransactions() {
-        return ResponseEntity.ok(transactionService.getAllTransactions());
+    public ResponseEntity<List<TransactionResponseDto>> getAllTransactionsByOwnerEmail(@RequestParam String email) {
+        List<TransactionResponseDto> transactions = transactionService.getAllTransactionsByOwnerEmail(email);
+        if (transactions.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(transactions);
     }
 
     @GetMapping("/{id}")

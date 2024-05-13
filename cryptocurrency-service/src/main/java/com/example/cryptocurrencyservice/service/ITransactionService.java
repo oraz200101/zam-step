@@ -6,9 +6,8 @@ import com.example.cryptocurrencyservice.model.TransactionResponseDto;
 import java.util.List;
 
 public interface ITransactionService {
+    List<TransactionResponseDto> getAllTransactionsByOwnerEmail(String email);
 
-    List<TransactionResponseDto> getAllTransactions();
     TransactionResponseDto getTransactionById(Long id);
     void createTransaction(TransactionRequestDto requestDto);
-
 }
