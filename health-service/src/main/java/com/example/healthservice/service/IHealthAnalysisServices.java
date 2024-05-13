@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface IHealthAnalysisServices {
 
-    List<HealthAnalysisResponseDto> getAllHealthAnalysis();
+    List<HealthAnalysisResponseDto> getAllHealthAnalysis(String email);
 
-    HealthAnalysisResponseDto getHealthAnalysisById(Long id);
+    HealthAnalysisResponseDto getHealthAnalysisByEmail(String email);
     void createHealthAnalysis(HealthAnalysisRequestDto requestDto);
 
 }
