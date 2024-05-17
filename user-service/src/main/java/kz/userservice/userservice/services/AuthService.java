@@ -1,8 +1,8 @@
-package kz.userservice.userservice.adapter;
+package kz.userservice.userservice.services;
 
 import kz.userservice.userservice.models.entities.UserEntity;
 
-public interface AuthenticationAdapter {
+public interface AuthService {
 
     UserEntity currentUser();
 

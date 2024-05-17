@@ -2,6 +2,7 @@ package com.example.healthservice.controller;
 
 import com.example.healthservice.model.HealthAnalysisRequestDto;
 import com.example.healthservice.model.HealthAnalysisResponseDto;
+import com.example.healthservice.service.AuthService;
 import com.example.healthservice.service.IHealthAnalysisServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,16 +16,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class HealthAnalysisController {
 
+    private final AuthService             authService;
     private final IHealthAnalysisServices healthAnalysisServices;
 
-    @GetMapping
-    public ResponseEntity<List<HealthAnalysisResponseDto>> getAllHealthAnalysisByEmail(
-            @RequestParam(name = "email", required = true) String email) {
-        return ResponseEntity.ok(healthAnalysisServices.getAllHealthAnalysis(email));
+    @GetMapping("/all")
+    public ResponseEntity<List<HealthAnalysisResponseDto>> getAllHealthAnalysisByEmail() {
+        return ResponseEntity.ok(healthAnalysisServices.getAllHealthAnalysis(authService.getAuthPrincipal().getEmail()));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<HealthAnalysisResponseDto> getHealthAnalysisById(@PathVariable Long id) {
+    @GetMapping
+    public ResponseEntity<HealthAnalysisResponseDto> getHealthAnalysisById(@RequestParam String id) {
         return ResponseEntity.ok(healthAnalysisServices.getHealthAnalysisById(id));
     }
 
@@ -33,6 +34,5 @@ public class HealthAnalysisController {
         healthAnalysisServices.createHealthAnalysis(requestDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
-
 
 }

@@ -1,8 +1,8 @@
-package kz.userservice.userservice.rest_client;
+package com.example.healthservice.rest_client;
 
+import com.example.healthservice.annotations.Client;
+import com.example.healthservice.model.authentication.AuthenticationDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import kz.userservice.userservice.annotations.Client;
-import kz.userservice.userservice.models.dtos.authentication.AuthenticationDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.security.core.Authentication;
@@ -49,4 +49,5 @@ public class AuthServerClientImpl implements AuthServerClient {
             }
         }));
     }
+
 }

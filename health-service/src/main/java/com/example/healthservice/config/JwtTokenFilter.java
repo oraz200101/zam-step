@@ -1,10 +1,10 @@
-package kz.userservice.userservice.config;
+package com.example.healthservice.config;
 
+import com.example.healthservice.rest_client.AuthServerClient;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
-import kz.userservice.userservice.rest_client.AuthServerClient;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.security.core.Authentication;

@@ -9,7 +9,7 @@ public interface IHealthAnalysisServices {
 
     List<HealthAnalysisResponseDto> getAllHealthAnalysis(String email);
 
-    HealthAnalysisResponseDto getHealthAnalysisById(Long id);
+    HealthAnalysisResponseDto getHealthAnalysisById(String id);
     void createHealthAnalysis(HealthAnalysisRequestDto requestDto);
 
 }

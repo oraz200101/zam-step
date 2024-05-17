@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface HealthAnalysisRepository extends MongoRepository<HealthAnalysis, Long> {
+public interface HealthAnalysisRepository extends MongoRepository<HealthAnalysis, String> {
     List<HealthAnalysis> findAllByEmail(String email);
     Optional<HealthAnalysis> findByEmail(String email);
 }

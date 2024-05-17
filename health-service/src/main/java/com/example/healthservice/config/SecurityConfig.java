@@ -1,6 +1,6 @@
-package kz.userservice.userservice.config;
+package com.example.healthservice.config;
 
-import kz.userservice.userservice.rest_client.AuthServerClient;
+import com.example.healthservice.rest_client.AuthServerClient;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
