@@ -12,3 +12,10 @@ eureka:
     serviceUrl:
       defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
 
+api:
+  routes:
+    auth: ${AUTH_URI:http://localhost:8081/api/auth}
+    user-service: ${USER_SERVICE_URI:http://localhost:8082/api/user}
+    health-service: ${HEALTH_SERVICE_URI:http://localhost:8084/api/health-analysis}
+    cryptocurrency-transaction-service: ${CRYPTOCURRENCY_TRANSACTION_SERVICE_URI:http://localhost:8083/api/transactions}
+    cryptocurrency-wallet-service: ${CRYPTOCURRENCY_WALLET_SERVICE_URI:http://localhost:8083/api/wallets}

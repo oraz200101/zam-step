@@ -26,4 +26,4 @@ eureka:
 
 auth:
   server:
-    URI: ${AUT_SERVER_URI:http://localhost:8080/api/auth}
+    URI: ${AUTH_URI:http://localhost:8080/api/auth}
