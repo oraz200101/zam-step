@@ -17,14 +17,14 @@ public class WalletController {
 
     private final IWalletService walletService;
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<WalletResponseDto>> getAllWallets() {
         return ResponseEntity.ok(walletService.getAllWallets());
     }
 
-    @GetMapping("/{email}")
-    public ResponseEntity<WalletResponseDto> getWalletByUserEmail(@PathVariable String email) {
-        return ResponseEntity.ok(walletService.getWalletByUserEmail(email));
+    @GetMapping
+    public ResponseEntity<WalletResponseDto> getWalletByUserEmail() {
+        return ResponseEntity.ok(walletService.getWalletByUserEmail());
     }
 
     @PostMapping
@@ -39,9 +39,9 @@ public class WalletController {
         return ResponseEntity.ok(walletService.patchWalletByUserEmail(email, requestDto));
     }
 
-    @DeleteMapping("/{email}")
-    public ResponseEntity<Void> deleteWalletByUserEmail(@PathVariable String email) {
-        walletService.deleteWalletByUserEmail(email);
+    @DeleteMapping
+    public ResponseEntity<Void> deleteWalletByUserEmail() {
+        walletService.deleteWalletByUserEmail();
         return ResponseEntity.noContent().build();
     }
 

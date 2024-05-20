@@ -10,7 +10,9 @@ import java.util.Optional;
 public interface WalletRepository extends JpaRepository<Wallet, Long> {
 
     Optional<Wallet> findWalletByOwnerEmail(String email);
+
     boolean existsByOwnerEmail(String email);
+
     void deleteWalletByOwnerEmail(String email);
 
 }

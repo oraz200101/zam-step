@@ -8,8 +8,12 @@ import java.util.List;
 public interface IWalletService {
 
     List<WalletResponseDto> getAllWallets();
-    WalletResponseDto getWalletByUserEmail(String email);
+
+    WalletResponseDto getWalletByUserEmail();
+
     void createWallet(WalletRequestDto requestDto);
+
     WalletResponseDto patchWalletByUserEmail(String email, WalletRequestDto requestDto);
-    void deleteWalletByUserEmail(String email);
+
+    void deleteWalletByUserEmail();
 }

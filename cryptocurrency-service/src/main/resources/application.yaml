@@ -15,12 +15,6 @@ spring:
     url: jdbc:postgresql://${DATABASE_HOST:localhost}:${DATABASE_PORT:12212}/${DATABASE_NAME:postgres?currentSchema=cryptocurrency_schema}
     username: ${DATABASE_USER:crypto}
     password: ${DATABASE_PASSWORD:1234}
-  kafka:
-    bootstrap-servers: localhost:12211
-    consumer:
-      group-id: my-group
-    producer:
-      client-id: my-producer
 #  flyway:
 #    enabled: true
 #    validate-on-migrate: true
@@ -29,3 +23,7 @@ eureka:
   client:
     serviceUrl:
       defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+
+auth:
+  server:
+    URI: ${AUT_SERVER_URI:http://localhost:8080/api/auth}

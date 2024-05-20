@@ -6,6 +6,7 @@ import com.example.cryptocurrencyservice.exception.ElementAlreadyExistException;
 import com.example.cryptocurrencyservice.exception.ElementNotFoundException;
 import com.example.cryptocurrencyservice.model.WalletRequestDto;
 import com.example.cryptocurrencyservice.model.WalletResponseDto;
+import com.example.cryptocurrencyservice.service.AuthService;
 import com.example.cryptocurrencyservice.service.IWalletService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -24,29 +25,32 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class WalletServiceImpl implements IWalletService {
 
-    private final WalletRepository walletRepository;
-    private static final String WALLET_NOT_FOUND = "Wallet not found in database";
+    private final        WalletRepository walletRepository;
+    private final        AuthService      authService;
+    private static final String           WALLET_NOT_FOUND = "Wallet not found in database";
 
 
     @Override
     public List<WalletResponseDto> getAllWallets() {
         return walletRepository.findAll().stream()
-                .map(this::mapFromEntityToDto)
-                .toList();
+                               .map(this::mapFromEntityToDto)
+                               .toList();
     }
 
     @Override
-    public WalletResponseDto getWalletByUserEmail(String email) {
-        return mapFromEntityToDto(walletRepository.findWalletByOwnerEmail(email)
-                .orElseThrow(()-> new ElementNotFoundException(WALLET_NOT_FOUND)));
+    public WalletResponseDto getWalletByUserEmail() {
+        return mapFromEntityToDto(walletRepository.findWalletByOwnerEmail(authService.getAuthPrincipal().getEmail())
+                                                  .orElseThrow(() -> new ElementNotFoundException(WALLET_NOT_FOUND)));
     }
 
     @Override
     public void createWallet(WalletRequestDto requestDto) {
-        if(walletRepository.existsByOwnerEmail(requestDto.getOwnerEmail())) {
+        String email = authService.getAuthPrincipal().getEmail();
+
+        if (walletRepository.existsByOwnerEmail(email)) {
             throw new ElementAlreadyExistException("User with this email already exists!");
         }
-        Wallet wallet = mapFromDtoToEntity(requestDto);
+        Wallet wallet = mapFromDtoToEntity(requestDto, email);
         wallet.setBalance(new BigDecimal("0.0"));
         walletRepository.save(wallet);
     }
@@ -55,7 +59,7 @@ public class WalletServiceImpl implements IWalletService {
     @Transactional
     public WalletResponseDto patchWalletByUserEmail(String email, WalletRequestDto requestDto) {
         Wallet wallet = walletRepository.findWalletByOwnerEmail(email)
-                .orElseThrow(() -> new ElementNotFoundException(WALLET_NOT_FOUND));
+                                        .orElseThrow(() -> new ElementNotFoundException(WALLET_NOT_FOUND));
         System.out.println(wallet);
         BeanUtils.copyProperties(requestDto, wallet, getNullPropertyNames(requestDto));
         System.out.println(wallet);
@@ -66,32 +70,34 @@ public class WalletServiceImpl implements IWalletService {
 
     @Override
     @Transactional
-    public void deleteWalletByUserEmail(String email) {
-        if(!walletRepository.existsByOwnerEmail(email)) {
+    public void deleteWalletByUserEmail() {
+        String email = authService.getAuthPrincipal().getEmail();
+
+        if (!walletRepository.existsByOwnerEmail(email)) {
             throw new ElementNotFoundException(WALLET_NOT_FOUND);
         }
         walletRepository.deleteWalletByOwnerEmail(email);
     }
 
-    public Wallet mapFromDtoToEntity(WalletRequestDto dto) {
+    public Wallet mapFromDtoToEntity(WalletRequestDto dto, String email) {
         return Wallet.builder()
-                .ownerEmail(dto.getOwnerEmail())
-                .address(dto.getAddress())
-                .build();
+                     .ownerEmail(email)
+                     .address(dto.getAddress())
+                     .build();
     }
 
     public WalletResponseDto mapFromEntityToDto(Wallet wallet) {
         return WalletResponseDto.builder()
-                .id(wallet.getWalletId())
-                .ownerEmail(wallet.getOwnerEmail())
-                .balance(wallet.getBalance())
-                .address(wallet.getAddress())
-                .build();
+                                .id(wallet.getWalletId())
+                                .ownerEmail(wallet.getOwnerEmail())
+                                .balance(wallet.getBalance())
+                                .address(wallet.getAddress())
+                                .build();
     }
 
     private String[] getNullPropertyNames(Object source) {
-        final BeanWrapper src = new BeanWrapperImpl(source);
-        Set<String> nullPropertyNames = new HashSet<>();
+        final BeanWrapper src               = new BeanWrapperImpl(source);
+        Set<String>       nullPropertyNames = new HashSet<>();
         for (PropertyDescriptor propertyDescriptor : src.getPropertyDescriptors()) {
             if (src.getPropertyValue(propertyDescriptor.getName()) == null) {
                 nullPropertyNames.add(propertyDescriptor.getName());

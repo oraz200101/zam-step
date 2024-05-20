@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @Builder
 public class TransactionRequestDto {
-    private Integer stepsAmount;
+    private Integer          stepsAmount;
     private WalletRequestDto walletRequestDto;
 }

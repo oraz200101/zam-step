@@ -8,6 +8,7 @@ import com.example.cryptocurrencyservice.exception.ElementNotFoundException;
 import com.example.cryptocurrencyservice.exception.InputDataIsNullException;
 import com.example.cryptocurrencyservice.model.TransactionRequestDto;
 import com.example.cryptocurrencyservice.model.TransactionResponseDto;
+import com.example.cryptocurrencyservice.service.AuthService;
 import com.example.cryptocurrencyservice.service.ITransactionService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -21,45 +22,48 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TransactionServiceImpl implements ITransactionService {
 
-    private final TransactionRepository transactionRepository;
-    private final WalletRepository walletRepository;
-    private final WalletServiceImpl walletService;
-    private static final String TRANSACTION_NOT_FOUND = "Transaction not found";
+    private final        TransactionRepository transactionRepository;
+    private final        WalletRepository      walletRepository;
+    private final        WalletServiceImpl     walletService;
+    private final        AuthService           authService;
+    private static final String                TRANSACTION_NOT_FOUND = "Transaction not found";
 
 
     @Override
-    public List<TransactionResponseDto> getAllTransactionsByOwnerEmail(String email) {
-        return transactionRepository.getTransactionsByWalletOwnerEmail(email).stream()
-                .map(this::mapFromEntityToDto)
-                .toList();
+    public List<TransactionResponseDto> getAllTransactionsByOwnerEmail() {
+        return transactionRepository.getTransactionsByWalletOwnerEmail(authService.getAuthPrincipal().getEmail()).stream()
+                                    .map(this::mapFromEntityToDto)
+                                    .toList();
     }
 
     @Override
     public TransactionResponseDto getTransactionById(Long id) {
         return mapFromEntityToDto(transactionRepository.findById(id)
-                .orElseThrow(()-> new ElementNotFoundException(TRANSACTION_NOT_FOUND)));
+                                                       .orElseThrow(() -> new ElementNotFoundException(TRANSACTION_NOT_FOUND)));
     }
 
     @Override
     @SneakyThrows
     @Transactional
     public void createTransaction(TransactionRequestDto requestDto) {
+        String email = authService.getAuthPrincipal().getEmail();
+
         if (requestDto.getWalletRequestDto() == null) {
             throw new InputDataIsNullException("Wallet data is null. Write owner email");
         } else {
-            if(!walletRepository.existsByOwnerEmail(requestDto.getWalletRequestDto().getOwnerEmail())) {
-                walletRepository.save(walletService.mapFromDtoToEntity(requestDto.getWalletRequestDto()));
+            if (!walletRepository.existsByOwnerEmail(email)) {
+                walletRepository.save(walletService.mapFromDtoToEntity(requestDto.getWalletRequestDto(), email));
             }
         }
 
-        Wallet wallet = walletRepository
-                .findWalletByOwnerEmail(requestDto.getWalletRequestDto().getOwnerEmail()).get();
+        Wallet wallet = walletRepository.findWalletByOwnerEmail(authService.getAuthPrincipal().getEmail())
+                                        .orElseThrow(() -> new ElementNotFoundException("wallet was not found"));
 
         Transaction transaction = Transaction.builder()
-                .tokenAmount(new BigDecimal(requestDto.getStepsAmount()).divide(BigDecimal.TEN))
-                .stepsAmount(requestDto.getStepsAmount())
-                .wallet(wallet)
-                .build();
+                                             .tokenAmount(new BigDecimal(requestDto.getStepsAmount()).divide(BigDecimal.TEN))
+                                             .stepsAmount(requestDto.getStepsAmount())
+                                             .wallet(wallet)
+                                             .build();
         wallet.setBalance(wallet.getBalance().add(transaction.getTokenAmount()));
         transactionRepository.save(transaction);
 
@@ -68,11 +72,11 @@ public class TransactionServiceImpl implements ITransactionService {
 
     public TransactionResponseDto mapFromEntityToDto(Transaction transaction) {
         return TransactionResponseDto.builder()
-                .id(transaction.getTransactionId())
-                .tokenAmount(transaction.getTokenAmount())
-                .stepsAmount(transaction.getStepsAmount())
-                .createdTime(transaction.getCreatedTime())
-                .walletResponseDto(walletService.mapFromEntityToDto(transaction.getWallet()))
-                .build();
+                                     .id(transaction.getTransactionId())
+                                     .tokenAmount(transaction.getTokenAmount())
+                                     .stepsAmount(transaction.getStepsAmount())
+                                     .createdTime(transaction.getCreatedTime())
+                                     .walletResponseDto(walletService.mapFromEntityToDto(transaction.getWallet()))
+                                     .build();
     }
 }

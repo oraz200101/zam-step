@@ -13,9 +13,9 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class WalletResponseDto {
 
-    private Long id;
-    private String ownerEmail;
+    private Long       id;
+    private String     ownerEmail;
     private BigDecimal balance;
-    private String address;
+    private String     address;
 
 }

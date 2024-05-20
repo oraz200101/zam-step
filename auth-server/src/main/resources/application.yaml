@@ -23,7 +23,7 @@ spring:
     validate-on-migrate: true
 
   kafka:
-    bootstrap-servers: localhost:12216
+    bootstrap-servers: ${KAFKA_HOST:localhost}:${KAFKA_PORT:12216}
     consumer:
       group-id: my-group
     producer:

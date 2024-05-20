@@ -18,8 +18,8 @@ public class TransactionController {
     private final ITransactionService transactionService;
 
     @GetMapping
-    public ResponseEntity<List<TransactionResponseDto>> getAllTransactionsByOwnerEmail(@RequestParam String email) {
-        List<TransactionResponseDto> transactions = transactionService.getAllTransactionsByOwnerEmail(email);
+    public ResponseEntity<List<TransactionResponseDto>> getAllTransactionsByOwnerEmail() {
+        List<TransactionResponseDto> transactions = transactionService.getAllTransactionsByOwnerEmail();
         if (transactions.isEmpty()) {
             return ResponseEntity.noContent().build();
         }

@@ -9,9 +9,9 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 public class TransactionResponseDto {
-    private Long id;
-    private BigDecimal tokenAmount;
-    private Integer stepsAmount;
-    private LocalDateTime createdTime;
+    private Long              id;
+    private BigDecimal        tokenAmount;
+    private Integer           stepsAmount;
+    private LocalDateTime     createdTime;
     private WalletResponseDto walletResponseDto;
 }
