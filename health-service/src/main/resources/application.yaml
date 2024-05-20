@@ -8,9 +8,9 @@ spring:
     name: health-server
   data:
     mongodb:
-      host: localhost
-      port: 27017
-      database: health_database
+      host: ${MONGO_HOST:localhost}
+      port: ${MONGO_PORT:27017}
+      database: ${MONGO_DATABASE:health_database}
 
 eureka:
   client:
@@ -20,3 +20,6 @@ eureka:
 auth:
   server:
     URI: ${AUT_SERVER_URI:http://localhost:8080/api/auth}
+
+bigchaindb:
+  URI: {$BIGCHAIN_DB_URI:http://localhost:9984}

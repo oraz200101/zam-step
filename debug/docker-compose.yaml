@@ -48,18 +48,15 @@ services:
       - "-c"
       - "max-connections=800"
 
-  bigchaindb:
-    image: bigchaindb/bigchaindb:all-in-one
-    container_name: bigchaindb
+  mongo:
+    image: mongo:4.4.9
+    container_name: sandbox-mongo
+    mem_limit: 700M
+    restart: always
     ports:
-      - "9984:9984"
-      - "9985:9985"
       - "27017:27017"
-      - "26657:26657"
     volumes:
-      - $HOME/bigchaindb_docker/mongodb/data/db:/data/db
-      - $HOME/bigchaindb_docker/mongodb/data/configdb:/data/configdb
-      - $HOME/bigchaindb_docker/tendermint:/tendermint
+      - ~/volumes/zam-step/mongo:/data/db
 
   crypto_db:
     image: postgres:15
@@ -235,11 +232,14 @@ services:
     ports:
       - "8084:8084"
     depends_on:
-      - bigchaindb
+      - mongo
       - eureka-server
     environment:
       EUREKA_URI: http://host.docker.internal:8761/eureka
       AUTH_SERVER_URI: http://host.docker.internal:8080/api/auth
+      MONGO_HOST: mongo
+      MONGO_PORT: 27017
+      MONGO_DATABASE: health_database
 
   api-gateway:
     build:
