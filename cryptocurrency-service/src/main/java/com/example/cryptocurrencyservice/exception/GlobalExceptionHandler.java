@@ -13,7 +13,7 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ElementNotFoundException.class)
-    public Map<String, String> elementNouFound(ElementNotFoundException exception) {
+    public Map<String, String> handleElementNotFound(ElementNotFoundException exception) {
         Map<String, String> error = new HashMap<>();
         error.put("Exception", exception.getMessage());
         return error;
@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ElementAlreadyExistException.class)
-    public Map<String, String> elementExist(ElementAlreadyExistException exception) {
+    public Map<String, String> handleElementExist(ElementAlreadyExistException exception) {
         Map<String, String> error = new HashMap<>();
         error.put("Exception", exception.getMessage());
         return error;
@@ -29,7 +29,15 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(InputDataIsNullException.class)
-    public Map<String, String> dataIsNull(InputDataIsNullException exception) {
+    public Map<String, String> handleDataIsNull(InputDataIsNullException exception) {
+        Map<String, String> error = new HashMap<>();
+        error.put("Exception", exception.getMessage());
+        return error;
+    }
+
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+    @ExceptionHandler(NotEnoughGasException.class)
+    public Map<String, String> handleNotEnoughGas(NotEnoughGasException exception) {
         Map<String, String> error = new HashMap<>();
         error.put("Exception", exception.getMessage());
         return error;

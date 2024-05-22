@@ -24,6 +24,12 @@ eureka:
     serviceUrl:
       defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
 
+crypto:
+  evm:
+    url: "https://sepolia.infura.io/v3/6c35a6871d894c6696b3692e7bd98006"
+    contractAddress: "0x45d4431cec80d50ccbbd1c82e35577293eda4487"
+    privateKey: "0x123"
+
 auth:
   server:
     URI: ${AUTH_URI:http://localhost:8080/api/auth}
