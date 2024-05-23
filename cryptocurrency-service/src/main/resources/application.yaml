@@ -28,7 +28,7 @@ crypto:
   evm:
     url: "https://sepolia.infura.io/v3/6c35a6871d894c6696b3692e7bd98006"
     contractAddress: "0x45d4431cec80d50ccbbd1c82e35577293eda4487"
-    privateKey: "0x123"
+    privateKey: "9d248d1b40be8382b1f5569bea65cacbba04c9f71548d9a97cb2ad399a0e8262"
 
 auth:
   server:
