@@ -39,12 +39,16 @@ public class WalletServiceImpl implements IWalletService {
 
     @Override
     public WalletResponseDto getWalletByUserEmail() {
-        return mapFromEntityToDto(walletRepository.findWalletByOwnerEmail(authService.getAuthPrincipal().getEmail())
-                                                  .orElseThrow(() -> new ElementNotFoundException(WALLET_NOT_FOUND)));
+        Wallet wallet = walletRepository.findWalletByOwnerEmail(authService.getAuthPrincipal().getEmail()).orElse(null);
+        if (wallet == null) {
+            wallet = createWallet(WalletRequestDto.of(authService.getAuthPrincipal().getEmail()));
+        }
+
+        return mapFromEntityToDto(wallet);
     }
 
     @Override
-    public void createWallet(WalletRequestDto requestDto) {
+    public Wallet createWallet(WalletRequestDto requestDto) {
         String email = authService.getAuthPrincipal().getEmail();
 
         if (walletRepository.existsByOwnerEmail(email)) {
@@ -52,7 +56,7 @@ public class WalletServiceImpl implements IWalletService {
         }
         Wallet wallet = mapFromDtoToEntity(requestDto, email);
         wallet.setBalance(new BigDecimal("0.0"));
-        walletRepository.save(wallet);
+        return walletRepository.save(wallet);
     }
 
     @Override

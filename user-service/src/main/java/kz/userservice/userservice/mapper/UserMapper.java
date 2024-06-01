@@ -19,7 +19,9 @@ public abstract class UserMapper {
     @BeforeMapping
     protected void setUp(@MappingTarget UserEntity entity, UserRegistrationDto dto) {
         entity.setRoles(Set.of(Role.USER));
-        entity.setBirthDate(DateUtil.parseToLocalDateTime(dto.getBirthDate()));
+        if (dto.getBirthDate() != null) {
+            entity.setBirthDate(DateUtil.parseToLocalDateTime(dto.getBirthDate()));
+        }
     }
 
     @Mapping(target = "password", ignore = true)

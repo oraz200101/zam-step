@@ -1,5 +1,6 @@
 package com.example.cryptocurrencyservice.service;
 
+import com.example.cryptocurrencyservice.domain.entity.Wallet;
 import com.example.cryptocurrencyservice.model.WalletRequestDto;
 import com.example.cryptocurrencyservice.model.WalletResponseDto;
 
@@ -11,7 +12,7 @@ public interface IWalletService {
 
     WalletResponseDto getWalletByUserEmail();
 
-    void createWallet(WalletRequestDto requestDto);
+    Wallet createWallet(WalletRequestDto requestDto);
 
     WalletResponseDto patchWalletByUserEmail(String email, WalletRequestDto requestDto);
 

@@ -11,9 +11,9 @@ public class AuthenticationDto implements Authentication {
     private String        name;
     private String        details;
     private AuthPrincipal principal;
-    private String    credentials;
-    private Set<Role> authorities;
-    private boolean   authenticated;
+    private String        credentials;
+    private Set<Role>     authorities;
+    private boolean       authenticated;
 
 
     @Override

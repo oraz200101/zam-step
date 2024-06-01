@@ -18,12 +18,11 @@ public class AuthController {
     private final AuthService service;
 
     @PostMapping("/registration")
-    public ResponseEntity<?> registration(@RequestBody UserRegistrationRequest request){
-        service.registration(request);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<JwtResponseDto> registration(@RequestBody UserRegistrationRequest request){
+        return ResponseEntity.ok(service.registration(request));
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<JwtResponseDto> login(@RequestBody JwtRequestDto request){
          return ResponseEntity.ok(service.login(request));
     }

@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface AuthService extends UserDetailsService {
-    void registration(UserRegistrationRequest request);
+    JwtResponseDto registration(UserRegistrationRequest request);
 
     void update(AuthUpdateDto authUpdateDto);
 

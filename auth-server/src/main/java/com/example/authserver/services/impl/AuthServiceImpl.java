@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Lazy))
@@ -32,12 +33,15 @@ public class AuthServiceImpl implements AuthService {
     private final JwtTokenProvider jwtTokenProvider;
 
     @Override
-    public void registration(final UserRegistrationRequest request) {
+    @Transactional
+    public JwtResponseDto registration(final UserRegistrationRequest request) {
         UserValidator.validate(request);
 
         AuthEntity entity = repository.save(mapper.mapToEntity(request));
 
         kafkaProducer.sendModelUserRegistration(mapper.mapToKafka(entity, request));
+
+        return login(JwtRequestDto.of(request.getEmail(), request.getPassword()));
     }
 
     @Override
