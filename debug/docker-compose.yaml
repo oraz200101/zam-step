@@ -201,10 +201,10 @@ services:
       DATABASE_PORT: 5432
       DATABASE_USER: oraz
       DATABASE_PASSWORD: 1234
-      EUREKA_URI: http://host.docker.internal:8761/eureka
+      EUREKA_URI: http://eureka-server:8761/eureka
       KAFKA_HOST: kf
       KAFKA_PORT: 9092
-      AUTH_SERVER_URI: http://host.docker.internal:8080/api/auth
+      AUTH_SERVER_URI: http://api-gateway:8080/api/auth
 
   cryptocurrency-service:
     build:
@@ -221,8 +221,8 @@ services:
       DATABASE_PORT: 5432
       DATABASE_USER: crypto
       DATABASE_PASSWORD: 1234
-      EUREKA_URI: http://host.docker.internal:8761/eureka
-      AUTH_SERVER_URI: http://host.docker.internal:8080/api/auth
+      EUREKA_URI: http://eureka-server:8761/eureka
+      AUTH_SERVER_URI: http://api-gateway:8080/api/auth
 
   health-service:
     build:
@@ -235,8 +235,8 @@ services:
       - mongo
       - eureka-server
     environment:
-      EUREKA_URI: http://host.docker.internal:8761/eureka
-      AUTH_SERVER_URI: http://host.docker.internal:8080/api/auth
+      EUREKA_URI: http://eureka-server:8761/eureka
+      AUTH_SERVER_URI: http://api-gateway:8080/api/auth
       MONGO_HOST: mongo
       MONGO_PORT: 27017
       MONGO_DATABASE: health_database
@@ -255,12 +255,12 @@ services:
       - cryptocurrency-service
       - eureka-server
     environment:
-      EUREKA_URI: http://host.docker.internal:8761/eureka
-      AUTH_URI: http://host.docker.internal:8081/api/auth
-      USER_SERVICE_URI: http://host.docker.internal:8082/api/user
-      HEALTH_SERVICE_URI: http://host.docker.internal:8084/api/health-analysis
-      CRYPTOCURRENCY_TRANSACTION_SERVICE_URI: http://host.docker.internal:8083/api/transactions
-      CRYPTOCURRENCY_WALLET_SERVICE_URI: http://host.docker.internal:8083/api/wallets
+      EUREKA_URI: http://eureka-server:8761/eureka
+      AUTH_URI: http://auth-server:8081/api/auth
+      USER_SERVICE_URI: http://user-service:8082/api/user
+      HEALTH_SERVICE_URI: http://health-service:8084/api/health-analysis
+      CRYPTOCURRENCY_TRANSACTION_SERVICE_URI: http://cryptocurrency-service:8083/api/transactions
+      CRYPTOCURRENCY_WALLET_SERVICE_URI: http://cryptocurrency-service:8083/api/wallets
   webserver:
     image: nginx:stable-alpine
     ports:
