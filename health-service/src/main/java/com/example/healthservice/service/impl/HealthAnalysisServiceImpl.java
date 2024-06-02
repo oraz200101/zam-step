@@ -63,7 +63,7 @@ public class HealthAnalysisServiceImpl implements IHealthAnalysisServices {
                 .findByEmailAndCurrentDate(email, LocalDate.now()).orElse(null);
 
         double burnedCalories = 3.5 * ((requestDto.getStepsAmount() * 0.7) / 1000)
-                * requestDto.getWeightInKg() * (requestDto.getTimeInMinutes() / 60);
+                * 80 * (requestDto.getTimeInMinutes() / 60);
 
         if (healthAnalysis == null) {
             HealthAnalysis newHealth = HealthAnalysis.builder()

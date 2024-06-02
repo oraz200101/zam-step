@@ -50,8 +50,7 @@ public class HealthAnalysisController {
 
     @PostMapping
     public ResponseEntity<HealthAnalysisResponseDto> createHealthAnalysis(@RequestBody HealthAnalysisRequestDto requestDto) {
-        return ResponseEntity.ok(
-                healthAnalysisServices.createHealthAnalysis(authService.getAuthPrincipal().getEmail(), requestDto));
+        return ResponseEntity.ok(healthAnalysisServices.createHealthAnalysis(authService.getAuthPrincipal().getEmail(), requestDto));
 
     }
 
