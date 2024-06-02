@@ -54,7 +54,7 @@ public class WalletServiceImpl implements IWalletService {
         if (walletRepository.existsByOwnerEmail(email)) {
             throw new ElementAlreadyExistException("User with this email already exists!");
         }
-        Wallet wallet = mapFromDtoToEntity(requestDto, email);
+        Wallet wallet = mapFromDtoToEntity(email);
         wallet.setBalance(new BigDecimal("0.0"));
         return walletRepository.save(wallet);
     }
@@ -83,10 +83,9 @@ public class WalletServiceImpl implements IWalletService {
         walletRepository.deleteWalletByOwnerEmail(email);
     }
 
-    public Wallet mapFromDtoToEntity(WalletRequestDto dto, String email) {
+    public Wallet mapFromDtoToEntity(String email) {
         return Wallet.builder()
                      .ownerEmail(email)
-                     .address(dto.getAddress())
                      .build();
     }
 

@@ -48,13 +48,10 @@ public class TransactionServiceImpl implements ITransactionService {
     public void createTransaction(TransactionRequestDto requestDto) {
         String email = authService.getAuthPrincipal().getEmail();
 
-        if (requestDto.getWalletRequestDto() == null) {
-            throw new InputDataIsNullException("Wallet data is null. Write owner email");
-        } else {
-            if (!walletRepository.existsByOwnerEmail(email)) {
-                walletRepository.save(walletService.mapFromDtoToEntity(requestDto.getWalletRequestDto(), email));
-            }
+        if (!walletRepository.existsByOwnerEmail(email)) {
+            walletRepository.save(walletService.mapFromDtoToEntity(email));
         }
+
 
         Wallet wallet = walletRepository.findWalletByOwnerEmail(authService.getAuthPrincipal().getEmail())
                                         .orElseThrow(() -> new ElementNotFoundException("wallet was not found"));
