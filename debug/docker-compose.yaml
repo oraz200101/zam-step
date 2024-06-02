@@ -181,7 +181,7 @@ services:
       DATABASE_PORT: 5432
       DATABASE_USER: auth
       DATABASE_PASSWORD: 1234
-      EUREKA_URI: http://host.docker.internal:8761/eureka
+      EUREKA_URI: http://eureka-server:8761/eureka
       KAFKA_HOST: kf
       KAFKA_PORT: 9092
 
