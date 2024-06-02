@@ -61,7 +61,13 @@ public class TransactionServiceImpl implements ITransactionService {
                                              .stepsAmount(requestDto.getStepsAmount())
                                              .wallet(wallet)
                                              .build();
-        wallet.setBalance(wallet.getBalance().add(transaction.getTokenAmount()));
+
+        BigDecimal balance = wallet.getBalance();
+        if (balance == null){
+            balance = BigDecimal.valueOf(0L);
+        }
+
+        wallet.setBalance(balance.add(transaction.getTokenAmount()));
         transactionRepository.save(transaction);
 
     }
