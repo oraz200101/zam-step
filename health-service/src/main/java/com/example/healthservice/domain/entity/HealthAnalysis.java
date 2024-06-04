@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 @ToString
 @Document
 public class HealthAnalysis {
-
     @Id
     private ObjectId  id;
     private String    email;

@@ -23,4 +23,5 @@ public interface HealthAnalysisRepository extends MongoRepository<HealthAnalysis
     @Query("{'email': ?0, 'currentDate': {$gte: ?1, $lte: ?2}}")
     List<HealthAnalysis> findByEmailAndCurrentMonth(String email, LocalDate startOfMonth, LocalDate endOfMonth);
 
+
 }

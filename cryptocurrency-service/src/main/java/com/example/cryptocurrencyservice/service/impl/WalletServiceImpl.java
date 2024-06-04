@@ -47,6 +47,7 @@ public class WalletServiceImpl implements IWalletService {
         return mapFromEntityToDto(wallet);
     }
 
+
     @Override
     public Wallet createWallet(WalletRequestDto requestDto) {
         String email = authService.getAuthPrincipal().getEmail();

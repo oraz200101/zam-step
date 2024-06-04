@@ -33,4 +33,5 @@ public abstract class UserMapper {
     public abstract UserEntity mapToEntity(@MappingTarget UserEntity entity, UserUpdateRequestDto userUpdateRequestDto);
 
     public abstract UserProfileDto mapToDto(UserEntity entity);
+
 }

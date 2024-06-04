@@ -16,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class HealthAnalysisController {
 
+
     private final AuthService             authService;
     private final IHealthAnalysisServices healthAnalysisServices;
 

@@ -14,4 +14,5 @@ public class UserProfileDto {
     private String    lastname;
     private String    patronymic;
     private LocalDate birthDate;
+
 }

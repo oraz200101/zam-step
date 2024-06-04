@@ -49,4 +49,5 @@ public class HealthAnalysisWeekResponseDto {
 
         return ret;
     }
+
 }

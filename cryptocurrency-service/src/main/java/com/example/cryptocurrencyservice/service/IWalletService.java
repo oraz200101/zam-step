@@ -14,6 +14,7 @@ public interface IWalletService {
 
     Wallet createWallet(WalletRequestDto requestDto);
 
+
     WalletResponseDto patchWalletByUserEmail(String email, WalletRequestDto requestDto);
 
     void deleteWalletByUserEmail();

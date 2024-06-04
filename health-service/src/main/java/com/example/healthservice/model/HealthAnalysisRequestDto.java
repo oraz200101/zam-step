@@ -14,6 +14,7 @@ public class HealthAnalysisRequestDto {
     private int    stepsAmount;
     private Double timeInMinutes;
 
+
     public static HealthAnalysisRequestDto of() {
         HealthAnalysisRequestDto healthAnalysisRequestDto = new HealthAnalysisRequestDto();
         healthAnalysisRequestDto.stepsAmount   = 0;

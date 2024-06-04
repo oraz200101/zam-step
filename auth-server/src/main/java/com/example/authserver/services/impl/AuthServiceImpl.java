@@ -94,4 +94,5 @@ public class AuthServiceImpl implements AuthService {
         return repository.findByEmail(username)
                          .orElseThrow(() -> new NotFoundException("user with email: " + username + " not found"));
     }
+
 }

@@ -13,4 +13,5 @@ public class HealthAnalysisResponseDto {
     private Integer   stepsAmount;
     private Double    burnedCalories;
     private LocalDate created;
+
 }

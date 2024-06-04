@@ -18,4 +18,5 @@ public interface AuthService extends UserDetailsService {
     boolean tokenIsValid(String token);
 
     Authentication produceAuthentication(String token);
+
 }

@@ -146,4 +146,5 @@ public class HealthAnalysisServiceImpl implements IHealthAnalysisServices {
                                         .created(healthAnalysis.getCurrentDate())
                                         .build();
     }
+
 }

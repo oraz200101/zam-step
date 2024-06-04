@@ -21,6 +21,7 @@ public class AuthenticationDto implements Authentication {
         return this.authorities;
     }
 
+
     @Override
     public Object getCredentials() {
         return this.credentials;
